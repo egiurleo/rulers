@@ -7,13 +7,18 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    minitest (5.14.4)
     rack (2.2.3)
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rake (13.0.6)
 
 PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  minitest
+  rack-test
   rake (~> 13.0)
   rulers!
 
