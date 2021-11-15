@@ -14,6 +14,11 @@ module Rulers
           {'Content-Type' => 'text/html'}, []]
       end
 
+      if env['PATH_INFO'] == '/'
+        return [301,
+          {'Location' => '/quotes/a_quote'}, []]
+      end
+
       klass, act = get_controller_and_action(env)
       controller = klass.new(env)
 
