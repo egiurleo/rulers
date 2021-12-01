@@ -25,6 +25,15 @@ module Rulers
         nil
       end
 
+      def self.find_all_by_submitter(submitter)
+        files = Dir["db/quotes/*.json"]
+        files.filter do |file|
+          quote = JSON.parse(File.read(file))
+          puts quote
+          quote['submitter'] == submitter
+        end.map { |f| FileModel.new f }
+      end
+
       def self.all
         files = Dir["db/quotes/*.json"]
         files.map { |f| FileModel.new f }
