@@ -18,6 +18,24 @@ module Rulers
       #   end
       # end
 
+      def method_missing(meth, *args, &block)
+        if self.class.schema.keys.map(&:to_sym).include?(meth)
+          self.class.define_method(meth) do
+            @hash[meth.to_s]
+          end
+
+          return @hash[meth.to_s]
+        end
+
+        if self.class.schema.keys.map { |key| "#{key}=".to_sym }.include?(meth)
+          self.class.define_method(meth) do |val|
+            @hash[meth[0...-1].to_s] = val
+          end
+
+          return @hash[meth[0...-1].to_s] = args[0]
+        end
+      end
+
       def initialize(data = nil)
         @hash = data
       end
