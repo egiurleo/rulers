@@ -18,31 +18,34 @@ module Rulers
                 { 'Content-Type' => 'text/html' }, []]
       end
 
-      if env['PATH_INFO'] == '/'
-        return [301,
-                { 'Location' => '/quotes/a_quote' }, []]
-      end
+      # if env['PATH_INFO'] == '/'
+      #   return [301,
+      #           { 'Location' => '/quotes/a_quote' }, []]
+      # end
 
-      klass, act = get_controller_and_action(env)
-      controller = klass.new(env)
+      rack_app = get_rack_app(env)
+      rack_app.call(env)
 
-      begin
-        text = controller.send(act)
-        r = controller.get_response
-      rescue StandardError => e
-        return [
-          500,
-          { 'Content-Type' => 'text/html' },
-          [e.message]
-        ]
-      end
+      # klass, act = get_controller_and_action(env)
+      # controller = klass.new(env)
 
-      if r
-        [r.status, r.headers, [r.body].flatten]
-      else
-        [200, { 'Content-Type' => 'text/html' },
-         [text]]
-      end
+      # begin
+      #   text = controller.send(act)
+      #   r = controller.get_response
+      # rescue StandardError => e
+      #   return [
+      #     500,
+      #     { 'Content-Type' => 'text/html' },
+      #     [e.message]
+      #   ]
+      # end
+
+      # if r
+      #   [r.status, r.headers, [r.body].flatten]
+      # else
+      #   [200, { 'Content-Type' => 'text/html' },
+      #    [text]]
+      # end
     end
   end
 end
